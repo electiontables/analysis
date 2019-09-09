@@ -3,14 +3,14 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-import election_data
+import electiontables
 
 def histogram(D, *, binwidth=0.25, minsize=0, seed=1):
 	rnd = np.random.RandomState(seed)
 	edges = np.arange(-binwidth/2, 100 + binwidth/2, binwidth)
 	centers = np.arange(0, 100, binwidth)
 
-	D = election_data.filter(D, ballots_valid_invalid_min=1, voters_registered_min=minsize, voters_voted_le_voters_registered=True, foreign=False)
+	D = electiontables.filter(D, ballots_valid_invalid_min=1, voters_registered_min=minsize, voters_voted_le_voters_registered=True, foreign=False)
 
 	hs, ls = {}, {}
 	for name in D.dtype.names:
@@ -49,7 +49,7 @@ if __name__ == '__main__':
 	parser.add_argument('-o', '--output', default='history.png', help='Output file')
 	args = parser.parse_args()
 
-	D = election_data.load(args.data)
+	D = electiontables.load(args.data)
 
 	plt.figure(figsize=(12, 4))
 	plot(D, title=os.path.basename(args.data), binwidth=args.bin_width, minsize=args.min_size)

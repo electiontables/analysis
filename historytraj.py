@@ -4,7 +4,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
-import election_data
+import electiontables
 
 def plot(D, title, hours_begin = 8.00, hours_end = 20.00, linewidth = 0.02):
 	time = [hours_begin] + [float(n.replace('turnout_', '').replace('h', '.')) for n in D.dtype.names if 'turnout_' in n] + [hours_end]
@@ -35,13 +35,13 @@ if __name__ == '__main__':
 
 	os.makedirs(args.output, exist_ok=True)
 
-	D = election_data.load(args.data)
-	R = election_data.regions(D)
+	D = electiontables.load(args.data)
+	R = electiontables.regions(D)
 
 	for region_code in R:
 		print(region_code)
 		plt.figure(figsize=(12, 8))
-		plot(election_data.filter(D, region_code=region_code), title=R[region_code])
+		plot(electiontables.filter(D, region_code=region_code), title=R[region_code])
 		plt.savefig(os.path.join(args.output, region_code + '.png'),
 		            bbox_inches='tight', dpi=args.dpi)
 		plt.close()
